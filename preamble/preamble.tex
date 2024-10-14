@@ -1,0 +1,282 @@
+% Silence specific warnings.
+\usepackage{silence}
+\WarningsOff[gensymb,everypage,siunitx,todonotes]
+
+% Most package includes.
+%\usepackage[paper=a4paper, inner=3.8cm, outer=2.5cm, bottom=2.5cm, top=2.5cm]{geometry}
+\usepackage[paper=a4paper, inner=2.5cm, outer=2.5cm, bottom=2.5cm, top=2.5cm]{geometry}
+\setlength{\marginparwidth}{2cm}
+\usepackage[english]{babel}
+\usepackage[protrusion=true,expansion=true]{microtype}
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+%\usepackage[pdftex,draft]{graphicx}
+\usepackage[pdftex]{graphicx}
+%\usepackage[export]{adjustbox}
+\usepackage[svgnames]{xcolor}
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage{epstopdf}
+\usepackage{booktabs}
+\usepackage{fix-cm}
+\usepackage{sobolev}
+\usepackage[sorting=none,style=numeric-comp,url=false,maxbibnames=99]{biblatex}
+\usepackage{url}
+\usepackage{physics}
+\usepackage{caption}
+\usepackage[labelformat=simple]{subcaption}
+\usepackage{bm}
+\usepackage{siunitx}
+\AtBeginDocument{\RenewCommandCopy\qty\SI}
+\usepackage{enumitem}
+\usepackage{calc}
+\usepackage{tikz}
+\usetikzlibrary{shadows.blur}
+\usetikzlibrary{external}
+\usepackage[loadshadowlibrary, obeyDraft]{todonotes}
+%\usepackage[loadshadowlibrary]{todonotes}
+\usepackage{gensymb}
+\usepackage{csquotes}
+\usepackage{epsfig}
+\usepackage[linesnumbered]{algorithm2e}
+\usepackage{tablefootnote}
+\usepackage{setspace}
+\usepackage{emptypage}
+%\usepackage{mathpazo} % Font styles: https://tug.org/pracjourn/2006-1/hartke/hartke.pdf
+\usepackage[some]{background}
+\usepackage{dsfont}
+\usepackage{floatrow}
+\usepackage{changepage}
+\usepackage{dirtytalk}
+%\usepackage{lettrine}
+\usepackage{floatpag}
+
+\RestyleAlgo{ruled}
+
+\addbibresource{./references-zotero.bib}
+
+%% Custom colours.
+\definecolor{UoNBlue1}{RGB}{0, 155, 189}
+\definecolor{UoNBlue2}{RGB}{0, 125, 168}
+\definecolor{UoNBlue3}{RGB}{0, 86, 151}
+\definecolor{UoNBlue4}{RGB}{27, 42, 107}
+\definecolor{UoNBlue5}{RGB}{25, 26, 79}
+\definecolor{Green1}{HTML}{00ab61}
+\definecolor{Green2}{HTML}{009756}
+\definecolor{Green3}{HTML}{00844b}
+\definecolor{Green4}{HTML}{007141}
+\definecolor{Green5}{HTML}{005f36}
+\definecolor{UoNOrange}{RGB}{243, 146, 0}
+\definecolor{UoNRed}{RGB}{216, 15, 42}
+\definecolor{UoNGreen}{RGB}{0, 95, 54}
+\definecolor{UoNApple}{RGB}{147, 213, 0}
+\definecolor{UoNBlue}{RGB}{0, 155, 193}
+\definecolor{UoNPurple}{RGB}{121, 45, 133}
+
+% Loaded after colours.
+%\usepackage[colorlinks=true,pdfstartview=FitV,linkcolor=black,citecolor=bluegray,urlcolor=black,pdfpagelabels,naturalnames=true]{hyperref}
+\usepackage{hyperref}
+
+\definecolor{darkgray}{gray}{0.4}  
+\definecolor{ddarkgray}{gray}{0.2} 
+\definecolor{redgray}{rgb}{0.5,0.25,0.25}  
+\definecolor{bluegray}{rgb}{0.25,0.25,0.5}
+
+%% Custom sectioning.
+\usepackage{titlesec}
+\titleformat{name=\chapter,numberless}[display]{\normalfont\sffamily\huge\bfseries\color{UoNBlue1}}{}{0pt}{}
+% Styles each chapter; e.g. "Chapter 3", or "Appendix B"
+\makeatletter
+\titleformat{\chapter}[display]{\normalfont\sffamily\huge\bfseries\color{UoNBlue1}}{}{0pt}{\@chapapp\,\thechapter\\ }
+\makeatother
+\titleformat{\section}[display]{\normalfont\sffamily\large\bfseries\color{UoNBlue2}}{}{0pt}{\thesection\ }
+\titleformat{\subsection}[display]{\normalfont\sffamily\large\bfseries\color{UoNBlue3}}{}{0pt}{\thesubsection\ }
+\titleformat{\subsubsection}[display]{\normalfont\sffamily\large\bfseries\color{UoNBlue4}}{}{0pt}{\thesubsubsection\ }
+
+% \usepackage{sectsty}
+
+% \chapterfont{
+% 	\color{UoNBlue1}
+% }
+% \sectionfont{
+% 	\color{UoNBlue2}
+% }
+% \subsectionfont{
+% 	\color{UoNBlue3}
+% }
+% \subsubsectionfont{
+% 	\color{UoNBlue4}
+% }
+
+% Table of Contents
+\renewcommand*\contentsname{Contents}
+\usepackage[titletoc]{appendix}
+\usepackage{titletoc} % following is based on https://tex.stackexchange.com/questions/192786/lines-within-toc
+
+%% Headers and footers.
+\usepackage{fancyhdr}												
+\pagestyle{fancy}												
+\usepackage{lastpage}
+\usepackage{etoolbox}
+\patchcmd{\chapter}{plain}{empty}{}{}
+
+% Header (empty).
+\lhead{}
+\chead{}
+\rhead{}
+
+% Footer (not empty).
+%\lfoot{\iffloatpage{}{\footnotesize \texttt{\reportauthor} \textbullet \, \reporttitle}}
+\lfoot{\footnotesize \texttt{\reportauthor} \textbullet \, \reporttitle}
+\cfoot{}
+%\rfoot{\iffloatpage{}{\footnotesize \thepage\ of \pageref{LastPage}}} % Put into main.tex and introduction.tex so it can be different on first few pages.
+\renewcommand{\headrulewidth}{0.0pt}
+%\renewcommand{\footrulewidth}{\iffloatpage{0.0pt}{0.4pt}}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Adds footer to chapter pages.
+\assignpagestyle{\chapter}{fancy}
+
+% Sets style for float pages.
+\floatpagestyle{fancy}
+
+%% Numbering down to the \subsection  level (but not \subsubsection in ToC).
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
+
+%  OBSLETE WITH THE LETTRINE PACKAGE 
+%% Creating an initial of the very first character of the content
+% \usepackage{lettrine}
+% \newcommand{\initial}[1]{%
+%      \lettrine[lines=3,lhang=0.3,nindent=0em]{
+% 		\color{UoNBlue1}
+% 		{\textrm{#1}}}{}}
+
+%% Broken gradient.
+\newcommand{\nablab}{\nabla_h}
+
+%% Other DGFEM stuff.
+\newcommand{\weakgrad}{\nabla_h}
+
+%% Jumps and averages.
+\newcommand{\jump}[1]{[\negthinspace[ #1 ]\negthinspace]}
+\newcommand{\average}[1]{\{\negthickspace\{#1\}\negthickspace\}}
+\newcommand{\jumpvec}[1]{\underline{\jump{#1}}}
+\newcommand{\averagevec}[1]{\underline{\average{#1}}}
+
+%% Dimensionless quantities.
+\DeclareMathOperator\Rey{\mbox{\textit{Re}}}  % Reynold number
+\DeclareMathOperator\Pec{\mbox{\textit{Pe}}}  % Péclet number
+\DeclareMathOperator\Dam{\mbox{\textit{Dm}}}  % Damköhler number
+\DeclareMathOperator\Dar{\mbox{\textit{Dr}}}  % Darcy number
+
+%% Common sets
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\CC}{\mathbb{C}}
+
+%% Integration
+%\newcommand*\diff{\mathop{}\!\m{d}}
+%\newcommand{\diff}{\!\m{d}}
+\newcommand{\diff}{~\mathrm{d}}
+
+%% Bold for vectors
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}
+
+%% Bold for matrices
+%\def\mat#1{\underline{\underline{#1}}}
+%\def\mat#1{\underline{#1}}
+\def\mat#1{\boldsymbol{\mathbf{#1}}}
+
+%% Title, author, and date metadata.
+% \usepackage{titling}			% For custom titles
+% \newcommand{\HorRule}{ 			% Creating a horizontal rule
+% 	\color{UoNBlue1}			
+%   	\rule{\linewidth}{1pt}
+% }
+% \pretitle{
+% 	\includegraphics[width=5cm]{resources/uon-logo-black.png}
+% 	\vspace{-30pt} \begin{flushleft} \HorRule 
+% 	\fontsize{50}{50} \usefont{OT1}{phv}{b}{n} \color{UoNBlue1} \selectfont
+% }
+% \title{\reporttitle}
+% \posttitle{
+% 	\par\end{flushleft}\vskip 0.5em
+% 	\LARGE \lineskip 0.5em \usefont{OT1}{phv}{b}{n} \color{UoNBlue3}
+% 	\reportsubtitle
+% 	\lineskip 1em
+% }
+% \preauthor{
+% 	\begin{flushleft}
+% 	\large \lineskip 0.5em 
+% }
+% \author{\usefont{OT1}{phv}{b}{sl}{\color{UoNBlue4}{\reportauthor}}\usefont{OT1}{phv}{r}{sl}{\color{black}{, supervised by: }}\newline\usefont{OT1}{phv}{b}{sl}{\color{UoNBlue5}{\reportsupervisors}}}
+% \postauthor{
+% 	\par\end{flushleft}\HorRule
+% }
+% \date{\reportdate}
+
+% Starting index for section numbering.
+\setcounter{section}{0}
+
+% Brackets around subfigure references.
+\renewcommand\thesubfigure{(\alph{subfigure})}
+
+% Custom todo style.
+\newcommand{\todoitemone}[1]{\tikzexternaldisable\todo[inline,textcolor=white,backgroundcolor=UoNRed,shadow]{\S\thesubsection~\textbf{TO-DO P1}: #1}\tikzexternalenable}
+\newcommand{\todoitemtwo}[1]{\tikzexternaldisable\todo[inline,textcolor=white,backgroundcolor=Green3,shadow]{\S\thesubsection~\textbf{TO-DO P2}: #1}\tikzexternalenable}
+\newcommand{\todoitemthree}[1]{\tikzexternaldisable\todo[inline,textcolor=white,backgroundcolor=UoNBlue3,shadow]{\S\thesubsection~\textbf{TO-DO P3}: #1}\tikzexternalenable}
+
+% Exponentials.
+%\renewcommand{\exp}[1]{e^{#1}}
+
+% Imaginary unit.
+\newcommand{\iu}{{i\mkern1mu}}
+
+% Nomenclature.
+% \usepackage{nomencl}
+% \makenomenclature
+
+% New pages with section.
+%\renewcommand{\chapter}{\newpage\chapter}
+
+\sisetup
+{
+    range-units=single,
+    range-exponents=combine,
+    range-phrase=--,
+    inter-unit-product=\,,
+}
+
+% Efficiency symbols.
+\newcommand{\effvmi}{E_v}
+\newcommand{\effsvp}{E_p}
+\newcommand{\efftri}{E_r}
+
+% Supposedly gives 1.5 line spacing in Word.
+\linespread{1.25}
+
+% Adds 'repeated' onto tagged references.
+\newcommand{\retag}[1]{\tag{\ref{#1} repeated}}
+
+% Retagging of figures.
+%  https://tex.stackexchange.com/questions/570165/using-tag-with-a-figure
+\newcommand{\figureretag}[1]{%
+  \renewcommand{\thefigure}{\ref{#1} (repeated)}%
+  \addtocounter{figure}{-1}%
+}
+\newcommand{\subfigureretag}[1]{%
+  \renewcommand{\thesubfigure}{Figure \ref{#1} (repeated)}%
+  \addtocounter{subfigure}{-1}%
+}
+
+% Quotes in maths mode.
+\DeclareMathSymbol{\mlq}{\mathord}{operators}{``}
+\DeclareMathSymbol{\mrq}{\mathord}{operators}{`'}
+
+% Theorems.
+\newtheorem{theorem}{Theorem}
+
+% For askterisk-ing things.
+\NewDocumentCommand{\anote}{}{\makebox[0pt][l]{$^*$}}
+
+% Stops broken links appearing over 2 pages. Can't imagine anyone would want a footnote over 2 pages anway.
+\interfootnotelinepenalty=10000

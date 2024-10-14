@@ -1,0 +1,101 @@
+\documentclass[a4paper, 12pt, oneside, colorinlistoftodos]{book}
+
+% Report properties.
+\newcommand{\reporttitle}{Placental haemodynamics}
+\newcommand{\reportsubtitle}{A computational study of maternal blood flow and oxygen transport in the human placenta}
+\newcommand{\reportauthor}{Adam M Blakey}
+\newcommand{\reportauthorfull}{Adam Matthew Blakey}
+\newcommand{\reportauthortitles}{MMath ARSM}
+\newcommand{\reportsupervisors}{Paul Houston, Matthew E Hubbard, Reuben D O'Dea}
+\newcommand{\reportdate}{May 2024}
+\newcommand{\reporttype}{final} % Set to 'draft' or 'final'.
+
+% Includes.
+\input{preamble/preamble}
+
+\begin{document}
+    \pagenumbering{Roman}
+    %\rfoot{\iffloatpage{}{\footnotesize \thepage}}
+    \rfoot{\footnotesize \thepage}
+    \listoftodos
+    
+    \input{preamble/front-pages}
+
+    \todoitemthree{If printing: change to CYMK, ad blank pages, and add margins.}
+
+    \pagenumbering{roman}
+    \chapter*{Abstract}
+        In this thesis, we present mathematical models used to describe maternal blood flow and oxygen transport in the at-term human placenta. We take a computational approach using discontinuous Galerkin finite element methods, which allows us to expand upon previous work by considering a complex 2D placental geometry that respects the main structural features of the placenta.
+        
+        One third of stillbirths are related to placental dysfunction, and therefore the overarching motivation for this work is to better understand characteristics of diseased placentas. This thesis studies maternal placental flow in three contexts, listed as follows.
+
+        Firstly, we study how placental efficiency is affected by changes in structural parameters. We achieve this by generating a large number of flow and oxygen realisations, whereby parameters such as the number and position of arteries and veins in our computational domain are varied; this allows us to infer how changes in placental structure affect placental function.
+
+        Taking the work in a second direction, we provide a method for comparing simulated flows with MRI data. We achieve this by advecting particles due to an underlying flow field, and modelling the evolution of each particle's magnetic spin, from which we can compute MRI signals. We compute these signals on simulated flow fields from our model of maternal blood flow, and on simpler manufactured sub-voxel shear flow, rotational flow, and accelerating flow fields; this allows us to infer the relationship between simple sub-voxel flow fields, our model of maternal blood flow, and real placental MRI data.
+
+        Thirdly, we introduce a preliminary model of the recently-documented utero-placental pump, where the entire placenta periodically reduces by up to $40\%$ in volume, resulting in periodic ejection of blood from the placenta. We achieve this by prescribing a simple form of boundary motion in order to study the effect this has on flow and oxygen concentration. We show that contractions of this nature do influence the oxygen transport dynamics, and therefore could prove useful in understanding disease in the placenta.
+
+    \chapter*{Acknowledgements}
+        First and foremost, I am extremely grateful for the guidance and support of my supervisors. To Reuben O'Dea, thank you for your unwavering patience and encouragement, especially during the write-up process. To Matthew Hubbard, thank you for your keen eye on the details of several aspects of this project, and for bridging the mathematical gap between the biological and computational worlds. Finally, to Paul Houston, thank you for introducing me to finite elements and indeed this project, as well as the numerous hours you have spent helping me debug my terrible Fortran code.
+
+        A special thank you to Penny Gowland and George Hutchinson for the many interactions on MRI matters, to Lopa Leach and Dimitrios Amanitis for everything biological, and to Zak Crowson for our many mathematical discussions. I would also like to acknowledge EPSRC for providing the funding for this project.
+
+        I am also thankful to all those who have given me such an enjoyable 8 years in Nottingham. Thank you to those I've met through various academic encounters with reading groups, conferences, teaching, student rep work, and much-needed regular coffee breaks. I extend this thanks to those who I have met through extracurricular activities, including many orchestras and several organisations within Scouting; these hobbies have at times been the only things that have kept me sane.
+
+        I am deeply indebted to the support of my family and friends, especially to my mam and late father, who provided an immense amount of encouragement throughout the first 18 years of my life, which prepared me for the life I have built in Nottingham, and have always supported me on whatever path I have chosen to take.
+
+        I could not have completed this thesis without my partner, Eleanor, who has helped me maintain a work-life balance, tolerated my grumpiness, and nevertheless supported me through the inevitable highs and lows of a PhD. It remains for me to thank my dog, Pip, for brightening each day.
+
+    \renewcommand{\thesection}{\hspace{-6pt}}
+    \chapter*{Publications}
+        Two publications have arisen from the work of this thesis and are currently in preparation.
+
+        \section*{Chapter 4}
+            Some of the work in Chapter \ref{sec:nutrient-uptake} is also presented in the publication \cite{crowsonInvestigatingPlacentalHemodynamics2024}. Specifically, the supervisors of this thesis have had oversight over the publication, with the author of this thesis focussing on the 2D investigations, and Zak Crowson\footnote{\href{mailto:zak.crowson2@nottingham.ac.uk}{zak.crowson2@nottingham.ac.uk}} focussing on 3D investigations. The results presented in this thesis take the 2D investigations to explore them in greater detail.
+
+            \begin{itemize}
+                \item[\cite{crowsonInvestigatingPlacentalHemodynamics2024}] Zak Crowson, \textbf{Adam Blakey}, Paul Houston, Matthew Hubbard, Lopa Leach, and Reuben O'Dea. \say{Investigating Placental Hemodynamics: A Morphological Sensitivity Study}. Manuscript in preparation. 2024.
+            \end{itemize}
+
+        \section*{Chapter 5}
+            Some of the work in Chapter \ref{sec:numerical-mri} is also presented in the publication \cite{hutchinsonEffectsMaternalFlow2024}. Specifically, the author and supervisors of this thesis contributed to the mathematical models and numerical experiments, whilst in vivo data were collected and analysed by George Hutchinson\footnote{\href{mailto:george.hutchinson1@nottingham.ac.uk}{george.hutchinson1@nottingham.ac.uk}} and Penny Gowland\footnote{\href{mailto:penny.gowland@nottingham.ac.uk}{penny.gowland@nottingham.ac.uk}}. The results presented in this thesis take the mathematical model and numerical experiments to explore them in greater detail.
+
+            \begin{itemize}
+                \item[\cite{hutchinsonEffectsMaternalFlow2024}] George Hutchinson, \textbf{Adam Blakey}, Nia Jones, Lopa Leach, Paul Houston, Matthew Hubbard, Reuben O'Dea, and Penny Gowland. \say{The Effects of Maternal Flow on Placental Diffusion Weighted MRI and IVIM Parameters}. Manuscript in preparation. 2024.
+            \end{itemize}
+
+    \renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
+    
+    \tableofcontents
+
+    %\tikzexternalize[prefix=tikz-cache/] % Caching of Tikz figures.
+
+    \include{sections/1_introduction}
+
+    \include{sections/2_model-development}
+
+    \include{sections/3_numerical-methods}
+    
+    \include{sections/4_nutrient-uptake}
+
+    \include{sections/5_numerical-mri}
+
+    \include{sections/6_contractions}
+
+    \include{sections/7_conclusions}
+
+    \appendix
+
+    \include{sections/A_smooth-transition}
+
+    \include{sections/B_comparison_of_flow}
+
+    \include{sections/C_lax-friedrichs_flux}
+
+    % \include{sections/D_analytical_expression}
+
+    \newpage
+    \addcontentsline{toc}{chapter}{Bibliography}
+    \printbibliography
+
+\end{document}

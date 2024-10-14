@@ -1,0 +1,58 @@
+\chapter{Lax-Friedrichs flux \texorpdfstring{$\alpha$}{α} parameter} \label{sec:lax-friedrichs}
+    We will derive the $\alpha$ parameter used in the modified Lax-Friedrichs flux in Equation \eqref{eq:lax-friedrichs-modified}; a similar procedure may be followed for the standard Lax-Friedrichs flux in Equation \eqref{eq:lax-friedrichs} by selecting $\vec{w} \equiv \vec{0}$.
+    
+    The Lax-Friedrichs flux used in Chapter \ref{sec:contractions}, $\bar{\mathcal{H}}$, is defined in Equation \ref{eq:lax-friedrichs-modified}; $\bar{\mathcal{H}}$ is a numerical flux function that approximates $(\vec{u} \otimes [\vec{u} - \vec{w}]) \cdot \vec{n}$. To help the reader, we rewrite these equations below:
+    \begin{equation}
+        \bar{\mathcal{H}}_\text{f}(\vec{u}^+, \vec{u}_\Gamma, \vec{n}; \vec{w}) := \frac{1}{2} ((\vec{u}^+ \otimes [\vec{u}^+ - \vec{w}]) \cdot \vec{n} + (\vec{u}_\Gamma \otimes [\vec{u}_\Gamma - \vec{w}]) \cdot \vec{n} + (\alpha \vec{u}^+ - \alpha \vec{u}_\Gamma)),
+        \tag{\ref{eq:lax-friedrichs-modified} repeated}
+    \end{equation}
+    where 
+    \begin{equation}
+        \vec{u}_\Gamma := 
+        \begin{cases}
+        \vec{u}^- & \text{on~} \mathcal{F}^\mathcal{I}, \\
+            \vec{u}^+ & \text{on~} \Gamma_N, \\
+            \vec{g}_D & \text{on~} \Gamma_D, 
+        \end{cases}
+        \tag{\ref{eq:u_gamma} repeated}
+    \end{equation}
+    and $\alpha$ is an estimate of the largest eigenvalue (in absolute value) of the following Jacobi matrix in the neighbourhood of the boundary of the element it is computed on (i.e. $\partial \kappa$) \cite{hartmannAdaptiveDiscontinuousGalerkin2003}:
+    \begin{equation*}
+        \pdv{}{\vec{u}}\left[ (\vec{u} \otimes [\vec{u} - \vec{w}]) \cdot \vec{n} \right].
+    \end{equation*}
+
+    Writing $\vec{u} \equiv (u_1, u_2)^\intercal$, $\vec{n} \equiv (n_1, n_2)^\intercal$, and $\vec{w} \equiv (w_1, w_2)^\intercal$, we have
+    \begin{align*}
+        (\vec{u} \otimes [\vec{u} - \vec{w}]) \cdot \vec{n} & \equiv
+        \begin{bmatrix}
+            u_1 (u_1 - w_1) & u_1 (u_2 - w_2) \\
+            u_2 (u_1 - w_1) & u_2 (u_2 - w_2)
+        \end{bmatrix}
+        \begin{bmatrix}
+            n_1 \\
+            n_2
+        \end{bmatrix}
+        \\
+        & \equiv \begin{bmatrix}
+            u_1 (u_1 - w_1) n_1 + u_1 (u_2 - w_2) n_2 \\
+            u_2 (u_1 - w_1) n_1 + u_2 (u_2 - w_2) n_2
+        \end{bmatrix}
+        \\
+        & \equiv \begin{bmatrix}
+            u_1 ([\vec{u} - \vec{w}] \cdot \vec{n}) \\
+            u_2 ([\vec{u} - \vec{w}] \cdot \vec{n})
+        \end{bmatrix}.
+    \end{align*}
+
+    Taking the derivative with respect to $\vec{u}$ gives
+    \begin{equation*}
+        \pdv{}{\vec{u}}\left[ (\vec{u} \otimes [\vec{u} - \vec{w}]) \cdot \vec{n} \right] \equiv \begin{bmatrix}
+            2u_1n_1 + u_2n_2 - w_1n_1 & u_1n_2 \\
+            u_2n_1 & 2u_2n_2 + u_1n_1 - w_2n_2
+        \end{bmatrix}
+    \end{equation*}
+    for which the eigenvalues are $2\vec{u} \cdot \vec{n} - \vec{w}\cdot\vec{n}$ and $\vec{u} \cdot \vec{n} - \vec{w}\cdot\vec{n}$; therefore, we obtain
+    \begin{equation}
+        \alpha = \max(|2\vec{u}^+\cdot\vec{n} - \vec{w} \cdot \vec{n}|, |2\vec{u}_\Gamma\cdot\vec{n} - \vec{w} \cdot \vec{n}|, |\vec{u}^+ \cdot \vec{n} - \vec{w} \cdot \vec{n}|, |\vec{u}_\Gamma \cdot \vec{n} - \vec{w} \cdot \vec{n}|).
+        \retag{eq:lf-alpha-velocity}
+    \end{equation}

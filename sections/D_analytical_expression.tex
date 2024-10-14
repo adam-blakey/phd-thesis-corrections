@@ -1,0 +1,70 @@
+\chapter{Derivation of \texorpdfstring{$\Phi$}{Φ}} \label{sec:analytical-energy}
+    \todoitemone{$R$ used here, $r$ used elsewhere}
+    
+    Here, we outline the derivation of $\Phi$, which is used in \S\ref{sec:nutrient-uptake:variation-of-vessels} as the approximation
+    \begin{equation*}
+        \Phi(N_\text{A}, N_\text{V}) \approx \frac{E_\text{kinetic}(\Gamma_\text{in}) - E_\text{kinetic}(\Gamma_\text{out})}{E_\text{kinetic}(\Gamma_\text{in})}.
+    \end{equation*}
+
+    We begin by considering Figure \ref{fig:analytical-expression-placenta}, which shows a simplified view of the inlets and outlets in the placenta, which has $N_\text{A}$ arteries, $N_\text{V}$ basal plate and septal wall veins, and $2$ marginal sinus veins; this reflects the problem setup throughout \S\ref{sec:nutrient-uptake:variation-of-vessels}. The flux of blood, $Q$, through each inlet and outlet is calculated as
+    \begin{equation}
+        Q = \frac{4 U R}{3},
+    \end{equation}
+    where we have assumed a Poiseuille flow of peak $U$ and radius $R$. The peak inflow speeds for the arteries are given as $\{ U_{\text{in},1}, ..., U_{\text{in},N_\text{A}} \}$ with artery radius $R_\text{a}$, therefore giving fluxes $$Q_\text{in} := \{ U_{\text{in},j} R_\text{A} \}_j.$$ Similarly, fluxes through the basal plate and septal wall veins are given as $$Q_\text{out} := \{ U_{\text{out},j} R_\text{V} \}_j,$$ and fluxes through marginal sinus veins are given as $$\{ Q^\text{ms}_\text{out} := U^\text{ms}_{\text{out},1} R^\text{ms}_\text{V}, U^\text{ms}_{\text{out},2} R^\text{ms}_\text{V} \}.$$
+    
+    \begin{figure}
+        \centering
+        \input{diagrams/misc-diagrams/analytical-energy}
+        \caption{Caption}
+        \label{fig:analytical-expression-placenta}
+    \end{figure}
+
+    Assuming conservation of mass (i.e. the flux in equals the flux out), we get
+    \begin{equation}
+        \sum_{j=1}^{N_\text{A}} \frac{4 U_{\text{in},j} R_\text{a}}{3} = \sum_{j=1}^{N_\text{v}} \frac{4 U_{\text{out},j} R_\text{v}}{3} + \sum_{j=1}^{2} \frac{4 U^\text{ms}_{\text{out},j} R^\text{ms}_\text{v}}{3}.
+        \label{eq:analytical-expression-conservation-of-mass}
+    \end{equation}
+
+    We recall the vessel sizes from Table \ref{tab:structural-parameters} that $R_\text{A} = \qty{0.5}{\milli\metre}$, $R_\text{V} = \qty{1.5}{\milli\metre}$, and $R^\text{ms}_\text{V} = \qty{3}{\milli\metre}$. This means we have the relation $R^\text{ms}_\text{V} = 2R_\text{V} = 6R_\text{A}$.
+
+    Next, we make an assumption of equal flow peaks on each similar vessel; this involves taking
+    \begin{alignat*}{5}
+        U_\text{in} & := U_{\text{in},i} && = U_{\text{in},j} && \text{ for } i \neq j, \\
+        U_\text{out} & := U_{\text{out},i} && = U_{\text{out},j} && \text{ for } i \neq j, \\
+        U^\text{ms}_\text{out} & := U^\text{ms}_{\text{out},1} && = U^\text{ms}_{\text{out},2}. &&
+    \end{alignat*}
+    We also make the assumption that peak outflow speeds are fractions of the inflow peak speed:
+    \begin{align*}
+        U_\text{out} & = k_1 U_\text{in}, \\
+        U^\text{ms}_\text{out} & = k_2 U_\text{in}, \\
+    \end{align*}
+    where $k_1$ and $k_2$ are constants. These assumptions allow us to rearrange Equation \eqref{eq:analytical-expression-conservation-of-mass} to give
+    \begin{equation}
+        k_2 = \frac{N_\text{A}-3N_\text{V}k_1}{12}.
+        \label{eq:k2-1}
+    \end{equation}
+
+    We make the assumption that fluxes out of an individual basal plate or septal wall vein is equal to twice the flux out of a marginal sinus vein, which accounts for the fact that basal plate and septal wall veins are preferable due to their proximity to arteries. We therefore set. $U_\text{out}R_\text{V} = 2U^\text{ms}_\text{out}R^\text{ms}_\text{V}$ and then obtain
+    \begin{equation}
+        k_2 = \frac{k_1}{4}.
+        \label{eq:k2-2}
+    \end{equation}
+    Using Equations \eqref{eq:k2-1} and \eqref{eq:k2-2} to solve for $k_1$, we get
+    \begin{equation}
+        k_1 = \frac{N_\text{A}}{3(2 + N_\text{V})}.
+    \end{equation}
+
+    Next, the kinetic energy on all inlets and outlets is respectively given by
+    \begin{align*}
+        E_\text{kinetic}(\Gamma_\text{in}) & = \frac{N_\text{A}}{2} \int_{\Gamma_\text{in}} |U_\text{in}|^2 \diff s, \\
+        E_\text{kinetic}(\Gamma_\text{in}) & = \frac{N_\text{V}}{2} \int_{\Gamma_\text{out}} |U_\text{out}|^2 \diff s + \frac{2}{2} \int_{\Gamma^\text{ms}_\text{out}} |U^\text{ms}_\text{out}|^2 \diff s.
+    \end{align*}
+    Simplifying these expressions with our previous assumptions gives
+    \begin{align}
+        E_\text{kinetic}(\Gamma_\text{in}) & = \frac{8 N_\text{A} U_\text{in}^2 R_\text{A}}{15}, \\
+        E_\text{kinetic}(\Gamma_\text{out}) & = \frac{8 N_\text{V} U_\text{out}^2 R_\text{V}}{15} + \frac{16 (U^\text{ms}_\text{out})^2 R^\text{ms}_\text{V}}{15}.
+    \end{align}
+    Taking the kinetic energy flux loss ratio as described in \S\ref{sec:nutrient-uptake:variation-of-vessels}, we arrive our approximate expression:
+    \begin{equation}
+        \Phi(N_\text{A}, N_\text{V}) := \frac{N_\text{A} - 3N_\text{V}k_1^2 - 12k_2^2}{N_\text{A}}.
+    \end{equation}
