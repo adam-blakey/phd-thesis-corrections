@@ -1,6 +1,6 @@
 \chapter{Utero-placental pump} \label{sec:contractions}
-    \todoitemtwo{2024-05-03 RO: Simplify discussion of results in this chapter.}
-    \todoitemthree{For viva: What is $\mathcal{H}$? And $\alpha$?}
+    % \todoitemtwo{2024-05-03 RO: Simplify discussion of results in this chapter.}
+    % \todoitemthree{For viva: What is $\mathcal{H}$? And $\alpha$?}
 
     In \citeyear{dellschaftHaemodynamicsHumanPlacenta2020}, \citeauthor{dellschaftHaemodynamicsHumanPlacenta2020} \cite{dellschaftHaemodynamicsHumanPlacenta2020} were the first to report the so-called `utero-placental pump' phenomenon. The utero-placental pump is a type of placental contraction that involves only the placenta, and is therefore unlike previously documented Braxton-Hicks that involves contractions of the entire uterus \cite{togashiSustainedUterineContractions1993}.
 
@@ -84,7 +84,7 @@
                     \end{split}%
                 \end{align}%
             \end{subequations}%
-            The weak formulation for this problem is given by: find $\vec{u}, p$ such that
+            The weak formulation for this problem is given by: find $\vec{u}, p$ in some appropriate space such that
             \begin{multline}
                 \overbrace{L_\text{f}(\vec{u}, \vec{v})}^{\text{time}} + \overbrace{A_\text{f}(\vec{u}, \vec{v})}^{\text{diffusion}} + \overbrace{C_\text{f}(\vec{u}, \vec{v})}^{\text{advection}} + \overbrace{M_\text{f}(\vec{u}, \vec{v})}^{\text{reaction}} + \overbrace{B_\text{f}(\vec{v}, p)}^{\text{pressure}} - \overbrace{B_\text{f}(\vec{u}, q)}^{\text{incompressibility}} \\ = \overbrace{F_{\text{f},\vec{g}_\text{f,D},\vec{g}_\text{f,N}}(\vec{v}) - G_{\text{f},\vec{g}_\text{f,D}}(q)}^{\text{forcing and boundary conditions}},
                 \label{eq:nsb-weak-formulation}
@@ -124,7 +124,7 @@
             \end{equation}
             A derivation of $\alpha$ is outlined in Appendix \ref{sec:lax-friedrichs}. We emphasise that the additional outer product term involved in Equation \eqref{eq:moving-mesh-relation} is `absorbed' by the inclusion of $\vec{w}$ in Equation \eqref{eq:moving-mesh-advection-term}.
 
-            \todoitemthree{For viva: Be familiar with why $\alpha$ has been chosen this way.} 
+            % \todoitemthree{For viva: Be familiar with why $\alpha$ has been chosen this way.} 
 
             We have a choice over the way in which mesh points are updated between each discretised mesh $\mathcal{T}_h^n \rightarrow \mathcal{T}_h^{n+1}$. For simplicity, we choose a \textit{forward} Euler approximation here, meaning we update each node in the mesh from $\mathcal{T}^n_h$ to $\mathcal{T}^{n+1}_h$ with
             \begin{equation}
@@ -133,11 +133,11 @@
             \end{equation}
             We denote the continuous piecewise linear spatial interpolant between mesh nodes of the domain velocity on $\mathcal{T}^{n+1}_h$ as $\mathcal{I}^{n+1}\vec{w}$. We note that $\vec{w}$ is used piecewise through time to update node positions, and $\mathcal{I}^{n+1}\vec{w}$ denotes the domain velocity that will appear in the weak formulation.
 
-            Similar to Chapter \ref{sec:numerical-methods}, we will use a finite difference method for discretising the time derivative. We choose to use a \textit{backward} Euler approximation to approximate this LHS. For our problem, this equates to the problem:
+            Similar to Chapter \ref{sec:numerical-methods}, we will use a finite difference method for discretising the time derivative. We choose to use a \textit{backward} Euler approximation to approximate this LHS. For our problem, this equates to the problem: find $\vec{u}, p$ in some appropriate space such that
             \begin{multline*}
                 \rho \int_{\Omega^{n+1}} \frac{(\vec{u}^{n+1}) \cdot \vec{v}^{n+1}}{\Delta t} \diff \vec{x} - \rho \int_{\Omega^n} \frac{(\vec{u}^n) \cdot \vec{v}^n}{\Delta t} \diff \vec{x} = A_\text{f}(\vec{u}^{n+1}, \vec{v}^{n+1}) + \bar{C}_\text{f}(\vec{u}^{n+1}, \vec{v}^{n+1}; \mathcal{I}^{n+1}\vec{w}) \\ + M_\text{f}(\vec{u}^{n+1}, \vec{v}^{n+1}) + B_\text{f}(\vec{v}^{n+1}, p^{n+1}) - B_\text{f}(\vec{u}^{n+1}, q^{n+1}) = F_{\text{f},\vec{g}_\text{f,D},\vec{g}_\text{f,N}}(\vec{v}^{n+1}) - G_{\text{f},\vec{g}_\text{f,D}}(q^{n+1}),
             \end{multline*}
-            where $\Omega^n \equiv \Omega(t^n)$ for notational simplicity, and we note that terms on the RHS are evaluated at time level $t^{n+1}$. Here, $\vec{u}^{n+1}$ and $\vec{u}^n$ are respectively the approximations of the velocity on the current and previous mesh, $p^{n+1}$ is the approximation of the pressure on the current mesh, $\vec{v}^{n+1}$ and $\vec{v}^n$ are respectively the velocity test functions on the current and previous mesh, and $q^{n+1}$ is the pressure test function on the current mesh. We define a modified bilinear form to use this time discretisation:
+            for all $\vec{v}, q$ in some appropriate space, where $\Omega^n \equiv \Omega(t^n)$ for notational simplicity, and we note that terms on the RHS are evaluated at time level $t^{n+1}$. Here, $\vec{u}^{n+1}$ and $\vec{u}^n$ are respectively the approximations of the velocity on the current and previous mesh, $p^{n+1}$ is the approximation of the pressure on the current mesh, $\vec{v}^{n+1}$ and $\vec{v}^n$ are respectively the velocity test functions on the current and previous mesh, and $q^{n+1}$ is the pressure test function on the current mesh. We define a modified bilinear form to use the time discretisation:
             \begin{equation}
                 \bar{E}_\text{f}(\vec{u}, \vec{v}; \Omega) := \frac{\rho}{\Delta t} \int_{\Omega} \vec{u} \cdot \vec{v} \diff \vec{x}.
             \end{equation}
@@ -178,7 +178,7 @@
             \end{align}
             where $\vec{n}$ denotes the outward-pointing unit normal on a face, $c_\Gamma$ is defined in Equation \eqref{eq:c_gamma} (see \S\ref{sec:numerical-methods:equation-discretisations:rad}), and $\bar{\mathcal{H}}_\text{c}$ is a modified Lax-Friedrichs flux for the oxygen concentration problem given on $F \in \mathcal{F}$ by
             \begin{equation}
-                \bar{\mathcal{H}}_\text{c}(c^+, c^-, \vec{n}; \vec{w})|_F := \frac{1}{2}(([\vec{u}^+ - \vec{w}] \cdot \vec{n}) c^+ + ([\vec{u}^- - \vec{w}] \cdot \vec{n}) c^- + \alpha(c^+ - c^-)),
+                \bar{\mathcal{H}}_\text{c}(c^+, c_\Gamma, \vec{n}; \vec{w})|_F := \frac{1}{2}(([\vec{u}^+ - \vec{w}] \cdot \vec{n}) c^+ + ([\vec{u}^- - \vec{w}] \cdot \vec{n}) c_\Gamma + \alpha(c^+ - c_\Gamma)),
             \end{equation}
             with $\alpha := |\average{\vec{u} - \vec{w}} \cdot \vec{n}|$.
             
@@ -216,7 +216,7 @@
         According to \citeauthor{nobileStabilityAnalysisArbitrary1999} \cite{nobileStabilityAnalysisArbitrary1999}, the Discrete Geometric Conservation Law (DGCL) states that the moving mesh formulation must produce the exact solution of a uniform flow field on moving meshes; this specifically refers to the situation where the boundary conditions are independent of the mesh movement. We remark here that under constant and linearly-varying mesh velocities, we were able to verify that our implementation reproduced exact solutions of uniform flow.
 
         \subsection{Convergence tests} \label{sec:contractions:numerical-experiments:convergence}
-            \todoitemtwo{If you get the chance, then draw a diagram for this domain. And earlier in Chapter \ref{sec:numerical-methods}.}
+            %\todoitemtwo{If you get the chance, then draw a diagram for this domain. And earlier in Chapter \ref{sec:numerical-methods}.}
         
             Similarly to \S\ref{sec:numerical-methods:convergence}, we will briefly test our code that implements the moving mesh numerical methods using the method of manufactured solutions (MMS), showing that we obtain convergence rates through mesh and time-step refinement.
 
@@ -344,7 +344,7 @@
 
             In order to model flow in a contracting placenta, we will now apply the numerical methods from \S\ref{sec:contractions:dgfem-discretisation} to NSD with placental flow parameters and the asymmetric placenta problem from \S\ref{sec:numerical-methods:blood-flow-experiments:asymmetric}.
 
-    \section{Preliminary utero-placental pump motion} \label{sec:contractions:placenta}
+    \section{Preliminary utero-placental pump motion} \label{sec:contractions:placenta}    
         The utero-placental pump (or placental contraction) is a newly discovered phenomenon, first reported by \citeauthor{dellschaftHaemodynamicsHumanPlacenta2020} \cite{dellschaftHaemodynamicsHumanPlacenta2020} in \citeyear{dellschaftHaemodynamicsHumanPlacenta2020}. This phenomenon is distinct from other types of contractions, as it involves contractions of the placenta, rather than contractions such as Braxton-Hicks contractions, which instead involve contractions of the entire uterus \cite{togashiSustainedUterineContractions1993}. \citeauthor{dellschaftHaemodynamicsHumanPlacenta2020} \cite{dellschaftHaemodynamicsHumanPlacenta2020} reported that the placenta was observed over $10$-minute intervals to periodically reduce by up to $40\%$ in volume, resulting in the periodic ejection of blood from the IVS. The mechanism of these contractions is not yet known, but it is thought that these contractions may be related to previous reports of contracting villous trees \cite{farleyContractilePropertiesHuman2004,dellschaftHaemodynamicsHumanPlacenta2020}. One theory of the evolutionary role of these contractions is that they assist maternal circulation by ejecting stagnant deoxygenated blood so that it may be replaced by freshly oxygenated blood; however, this is yet to be shown experimentally \cite{dellschaftHaemodynamicsHumanPlacenta2020}.
 
         In this section, we will prescribe a simple domain velocity that is inspired by MRI scan data. Using this domain velocity, we will then compute the resulting flow and oxygen concentration fields using the moving mesh discretisation presented in \S\ref{sec:contractions:dgfem-discretisation}.
@@ -390,7 +390,7 @@
                     w_2 = W (y - y_c) \sin\left(\frac{2 \pi t - T_0}{T}\right),
                 \end{equation}
             \end{subequations}
-            where $(x_c, y_c)$ is selected as a centre of inflation within the 2D placenta, $T_0=14.3$ and $T = T_N - T_0 = 3.6$ minutes, and $W$ is chosen appropriately such that at time $\frac{T_0+T_N}{2}$ minutes there is a 2D area change of $\Delta_2 = -24.0\%$; here, this corresponds to $W = \qty{8.04e-5}{\metre\per\second}$.
+            where $(x_c, y_c)$ is selected as a centre of inflation within the 2D placenta, $T_0=14.3$ and $T = T_N - T_0 = 3.6$ minutes, and $W$ is chosen appropriately such that at time $\frac{T_0+T_N}{2}$ minutes there is a 2D area change of $\Delta_2 = -24.0\%$; here, this corresponds to $W = -\qty{8.04e-5}{\metre\per\second}$.
             
             To summarise, we have used MRI scan data of placental volume change during a placental contraction to inform a domain velocity for use in our mathematical model. Specifically, we made a simplification to only consider the period of fastest volume decrease in this data, and calculated an equivalent area change for our 2D geometry from this 3D data. We then selected a simple form of domain velocity that gives an equivalent maximum area reduction on our 2D placenta geometry between $T_0 = 14.3$ and $T_N = 17.9$ minutes.
 
@@ -402,7 +402,7 @@
             For the flow problem, we consider a small modification to the boundary conditions to those presented in \S\ref{sec:modelling:blood-flow:boundary-conditions}. We recall boundary conditions are applied in the form
             \begin{subequations}
                 \begin{alignat*}{3}
-                    \left( \nabla \vec{u} - p \mat{I} \right) \cdot \vec{n} & = \vec{g}_\text{f,N} &&~ \text{on } \Gamma_\text{out}, \\
+                    \left( \mu \nabla \vec{u} - p \mat{I} \right) \cdot \vec{n} & = \vec{g}_\text{f,N} &&~ \text{on } \Gamma_\text{out}, \\
                     \vec{u} & = \vec{g}_\text{f,D} &&~ \text{on } \Gamma\setminus\Gamma_\text{out},
                 \end{alignat*}%
             \end{subequations}%
@@ -414,7 +414,7 @@
                     \vec{g}_\text{f,D} & = \vec{w} &&~ \text{on } \Gamma \setminus (\Gamma_\text{in} \cup \Gamma_\text{out}),
                 \end{alignat}%
             \end{subequations}%
-            where $\vec{n}$ is the unit outward-pointing normal on $\Gamma_\text{in}$, $r(\vec{x})$ is the distance from a point $\vec{x}$ to the centre of $\Gamma_\text{in}$, $R(t)$ is the artery radius, and $A(t) := \frac{R(0)}{R(t)}$ is the modified amplitude of the Poiseuille flow to retain constant inlet flux.
+            where $\vec{n}$ is the unit outward-pointing normal on $\Gamma_\text{in}$, $r(\vec{x})$ is the distance from a point $\vec{x}$ to the centre of $\Gamma_\text{in}$, $R(t)$ is the artery radius, $A(t) := U \frac{R(0)}{R(t)}$ is the modified amplitude of the Poiseuille flow to retain constant inlet flux, and $U$ is the peak flow speed given in Table \ref{tab:problem-parameters}.
 
             For the oxygen transport problem, we keep the same boundary conditions as those presented in \S\ref{sec:modelling:transport}; namely, boundary conditions are applied of the form
             \begin{subequations}
@@ -434,7 +434,7 @@
             We will now use the prescribed domain velocity from \S\ref{sec:contractions:placenta:mesh-velocity} and the problem setup presented here, together with the numerical methods from \S\ref{sec:contractions:dgfem-discretisation}, to compute the blood flow and oxygen transport fields under this domain movement.
 
         \subsection{Placenta motion}
-            We take our initial domain $\Omega^0$ to be the 2D placenta domain with dimensions specified in \S\ref{sec:modelling:geometries:2d-placenta} and asymmetric placement of vessels as presented in \S\ref{sec:numerical-methods:blood-flow-experiments:asymmetric}. We use the steady-state approximations on $\Omega^0$ as the initial conditions for the time-dependent blood flow and oxygen concentration problems. For these simulations, we have selected a time-step size of $\Delta t = \qty{0.036}{\minute} = \qty{2.16}{\second}$. We note that each time-step is longer than a typical cardiac cycle, and we therefore do not apply any corresponding adjustment to the amplitude to account for pulsatile inlet flow. We chose this relatively large time-step size for simplicity, and because of the relatively slow domain velocity scaling of $W = \qty{8.04e-5}{\metre\per\second}$.
+            We take our initial domain $\Omega^0$ to be the 2D placenta domain with dimensions specified in \S\ref{sec:modelling:geometries:2d-placenta} and asymmetric placement of vessels as presented in \S\ref{sec:numerical-methods:blood-flow-experiments:asymmetric}. We use the steady-state approximations on $\Omega^0$ as the initial conditions for the time-dependent blood flow and oxygen concentration problems. For these simulations, we have selected a time-step size of $\Delta t = \qty{0.036}{\minute} = \qty{2.16}{\second}$. We note that each time-step is longer than a typical cardiac cycle, and we therefore do not apply any corresponding adjustment to the amplitude to account for pulsatile inlet flow. We chose this relatively large time-step size for simplicity, and because of the relatively slow domain velocity scaling of $W = -\qty{8.04e-5}{\metre\per\second}$.
 
             We will consider only five snapshots in time in the body of this thesis for ease of presentation. Videos visualising these fields through time at every time-step are available here\footnote{Blood flow field: \url{https://r.blakey.family/phd-video-mmv}; oxygen transport field: \url{https://r.blakey.family/phd-video-mmt}}. Figures \ref{fig:moving-mesh-placenta-velocity} and \ref{fig:moving-mesh-placenta-transport} provide the main results of this chapter. These figures respectively visualise the blood flow and oxygen transport fields in five snapshots in time, which are indicated in Figure \ref{fig:contraction-data:extracted} by grey vertical lines.
 
@@ -514,9 +514,9 @@
             where $\vec{u}$ is the velocity of the blood flow, $c$ is the oxygen concentration field, $|\Omega| := \int_\Omega \diff \vec{x}$, $R$ is the uptake rate of the villous tree from Table \ref{tab:problem-parameters}, and $\Psi$ defines the smooth transition region described in \S\ref{sec:modelling:blood-flow}. Figures \ref{fig:mm-quantities:velocity} and \ref{fig:mm-quantities:uptake} respectively visualise $\bar{v}(\Omega)$ and $\bar{c}$ through our simulation.
 
             \begin{figure}
-                %% MONOLITH COMMIT:
+                %% MONOLITH COMMIT: 713bce0e7e44787c271ffb03e872d6fd5eb33641
                 %% File run: ./plotting/mm-quantities.py
-                %% Date run: 2024-05-10 12:33:00
+                %% Date run: 2024-10-05 15:56:25
                 \centering
                 \begin{subfigure}{0.45\textwidth}
                     \includegraphics[width=\textwidth]{diagrams/results-contractions/mm-quantities-velocity.png}
@@ -532,9 +532,9 @@
                 \label{fig:mm-quantities}
             \end{figure}
 
-            Figure \ref{fig:mm-quantities:velocity} shows that the average speed of the blood increases when the domain contracts, and decreases again when the domain expands. Interestingly, the peak of $\bar{v}(\Omega)$ corresponds to $t = \qty{15.9}{\minute}$, which is $\qty{0.2}{\minute}$ before the domain is at its smallest; as the domain velocity is decelerating toward this minimal domain size, this could be due to inertial effects on the blood which cause an augmented maximum. Likewise, there is a minimum $\qty{0.2}{\minute}$ before the maximum domain size is regained at $t = \qty{17.9}{\minute}$.
+            The solid blue line in Figure \ref{fig:mm-quantities:velocity} shows that the average speed of the blood increases when the domain contracts, and decreases again when the domain expands. Interestingly, the peak of $\bar{v}(\Omega)$ corresponds to $t = \qty{15.9}{\minute}$, which is $\qty{0.2}{\minute}$ before the domain is at its smallest; as the domain velocity is decelerating toward this minimal domain size, this could be due to inertial effects on the blood which cause an augmented maximum. Likewise, there is a minimum $\qty{0.2}{\minute}$ before the maximum domain size is regained at $t = \qty{17.9}{\minute}$.
             
-            Figure \ref{fig:mm-quantities:uptake} shows slightly different behaviour, where oxygen uptake is lowest during the period of most rapid contraction and highest during the period of most rapid expansion; these correspond to what we saw when visualising the oxygen concentration field in Figure \ref{fig:moving-mesh-placenta-transport:5}, where certain areas of the domain appeared to have lower oxygen concentration during the contraction and higher oxygen concentration during the expansion. The most significant feature of this graph is that the oxygen uptake is increased when the placenta returns to its original size at $t = \qty{17.9}{\minute}$, indicated by the solid line being higher than the dotted line. This simulation therefore supports the theory that placental contractions could assist maternal circulation by ejecting stagnant deoxygenated blood and improve oxygen delivery to the fetus \cite{dellschaftHaemodynamicsHumanPlacenta2020}.
+            Figure \ref{fig:mm-quantities:uptake} shows slightly different behaviour, where the solid orange line shows oxygen uptake is lowest during the period of most rapid contraction and highest during the period of most rapid expansion; these correspond to what we saw when visualising the oxygen concentration field in Figure \ref{fig:moving-mesh-placenta-transport:5}, where certain areas of the domain appeared to have lower oxygen concentration during the contraction and higher oxygen concentration during the expansion. The most significant feature of this graph is that the oxygen uptake is increased when the placenta returns to its original size at $t = \qty{17.9}{\minute}$, indicated by the solid line being higher than the dotted line. This simulation therefore supports the theory that placental contractions could assist maternal circulation by ejecting stagnant deoxygenated blood and improve oxygen delivery to the fetus \cite{dellschaftHaemodynamicsHumanPlacenta2020}. 
 
             We will now close this chapter with some closing remarks, limitations of our contraction model, and suggested future work.
 
@@ -545,7 +545,9 @@
 
         The main results of the chapter were presented in \S\ref{sec:contractions:placenta}, where we used volume information from MRI scan data to inform a domain velocity that represents a domain size change comparable to those found during a `utero-placental pump' contraction. Our results found that the blood flow field remained largely undisturbed, despite the relatively large domain size change; we noted that this is likely due to the long timescales upon which these contractions take place. We did, however, find that the oxygen concentration field was more visibly influenced by the boundary motion than the velocity field, with overall decreased oxygen uptake during the contracting phase and increased oxygen uptake during the expansion phase. Our simulation showed that contractions of this form do have an impact on oxygen concentration dynamics and oxygen uptake by the villous tree.
 
-        For clarity, the model of the utero-placental pump we have presented here is highly simplified and does not consider the physical mechanisms driving the contractions. In particular, we have assumed a simple form for the domain velocity, and used this over a shorter \qty{3.6}{\minute} period covering the fastest volume change rate, rather than the full \qty{26}{\minute} presented in the data of \citeauthor{gowlandCharacterisingPlacentalContractions2024} \cite{gowlandCharacterisingPlacentalContractions2024}. Furthermore, the results of \citeauthor{dellschaftHaemodynamicsHumanPlacenta2020} \cite{dellschaftHaemodynamicsHumanPlacenta2020} show very little change in the thickness of the placenta between the chorionic and basal plates, with the contraction primarily taking place in the horizontal direction (when viewed in the orientation we have presented in this thesis); future work taking this approach could therefore simulate the entire contraction length and consider domain velocities that cause shape change only in the horizontal direction. Additionally, future studies could investigate the effect that villous tree density and shape has on flow dynamics and oxygen uptake.
+        For clarity, the model of the utero-placental pump we have presented here is highly simplified and does not consider the physical mechanisms driving the contractions. In particular, we have assumed a simple form for the domain velocity, and used this over a shorter \qty{3.6}{\minute} period covering the fastest volume change rate, rather than the full \qty{26}{\minute} presented in the data of \citeauthor{gowlandCharacterisingPlacentalContractions2024} \cite{gowlandCharacterisingPlacentalContractions2024}. Furthermore, the results of \citeauthor{dellschaftHaemodynamicsHumanPlacenta2020} \cite{dellschaftHaemodynamicsHumanPlacenta2020} show very little change in the thickness of the placenta between the chorionic and basal plates, with the contraction primarily taking place in the horizontal direction (when viewed in the orientation we have presented in this thesis); future work taking this approach could therefore simulate the entire contraction length and consider domain velocities that cause shape change only in the horizontal direction. 
+
+        The time-dependent simulations presented in this chapter assume that the villous tree density and oxygen uptake rate remain constant throughout contractions. However, this is physically unlikely, as the smaller domain size would likely result in a denser villous tree structure with reduced permeability and a higher uptake rate (see, for example, \citeauthor{serovOptimalVilliDensity2015} \cite{serovOptimalVilliDensity2015}). Although not presented in this thesis, we ran two additional steady-state simulations to briefly investigate how domain size and uptake rate contribute to the values of $\bar{v}$ and $\bar{c}$. Firstly, we considered a steady-state simulation where the domain is fixed at time $t = T_0 + \frac{T}{2} \equiv \qty{16.10}{\minute}$ (i.e., the smallest domain size); we found that $\bar{v}$ increased by approximately $34\%$ whilst $\bar{c}$ reduced by approximately $31\%$ from the values at time $t = T_0$. These changes are more than $2$ times larger than the changes induced by the contractions, which indicates that there remains some uninvestigated inertial effects due to the time-dependent contractions. Furthermore, we ran a second simulation on the smaller domain where $k$ and $R$ were linearly increased according to the $24\%$ domain size reduction; this simulation found a further increase of $1\%$ to $\bar{v}$ and an increase of $22\%$ to $\bar{c}$. Notably in the case of $\bar{c}$, this enhanced uptake rate on the smaller domain size is insufficient in recovering $\bar{c}$ on the original larger domain size. Clearly, there is more to be investigated with time-dependent permeability and uptake rate. In particular, it is not clear that there exists a linear relationship between the domain size and both the villous tree density and oxygen uptake rate in this context. Therefore, future studies could further consider the effect that villous tree density and shape has on flow dynamics and oxygen uptake during contractions.
 
         The cause of these contractions is currently unknown \cite{dellschaftHaemodynamicsHumanPlacenta2020}, but it is thought that they may be related to previous reports of contracted villous trees, which are sometimes anchored (i.e., connected) to the basal plate \cite{dellschaftHaemodynamicsHumanPlacenta2020,katoVillousTreeModel2017}. An interesting extension to this work would be to use the work of \citeauthor{katoVillousTreeModel2017} \cite{katoVillousTreeModel2017} in designing a model of the utero-placental pump that respects the data of \citeauthor{gowlandCharacterisingPlacentalContractions2024} \cite{gowlandCharacterisingPlacentalContractions2024}. An alternative modelling approach could reapply one of the works from the existing fluid-structure interaction literature (e.g., \cite{houNumericalMethodsFluidStructure2012,doneaArbitraryLagrangianEulerian2004,ricardodasilvaNumericalSimulationsFluidstructure2007,collisEffectiveEquationsGoverning2017,formaggiaCardiovascularMathematicsModeling2010}), where the mechanism of interaction between the maternal blood and surrounding contracting tissue could be modelled; this is rather than imposing a prescribed boundary motion like we have in this thesis. 
 

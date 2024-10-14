@@ -13,7 +13,7 @@
 \usepackage[pdftex]{graphicx}
 %\usepackage[export]{adjustbox}
 \usepackage[svgnames]{xcolor}
-\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage[hang,small,labelfont=bf,up,textfont=it,up]{caption}
 \usepackage{epstopdf}
 \usepackage{booktabs}
 \usepackage{fix-cm}
@@ -36,7 +36,7 @@
 \usepackage{gensymb}
 \usepackage{csquotes}
 \usepackage{epsfig}
-\usepackage[linesnumbered]{algorithm2e}
+\usepackage[linesnumbered,algochapter]{algorithm2e}
 \usepackage{tablefootnote}
 \usepackage{setspace}
 \usepackage{emptypage}
@@ -274,6 +274,7 @@
 
 % Theorems.
 \newtheorem{theorem}{Theorem}
+\numberwithin{theorem}{chapter}
 
 % For askterisk-ing things.
 \NewDocumentCommand{\anote}{}{\makebox[0pt][l]{$^*$}}

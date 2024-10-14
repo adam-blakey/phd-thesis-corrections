@@ -31,24 +31,14 @@
         \begin{bmatrix}
             n_1 \\
             n_2
-        \end{bmatrix}
-        \\
-        & \equiv \begin{bmatrix}
-            u_1 (u_1 - w_1) n_1 + u_1 (u_2 - w_2) n_2 \\
-            u_2 (u_1 - w_1) n_1 + u_2 (u_2 - w_2) n_2
-        \end{bmatrix}
-        \\
-        & \equiv \begin{bmatrix}
-            u_1 ([\vec{u} - \vec{w}] \cdot \vec{n}) \\
-            u_2 ([\vec{u} - \vec{w}] \cdot \vec{n})
         \end{bmatrix}.
     \end{align*}
 
     Taking the derivative with respect to $\vec{u}$ gives
     \begin{equation*}
         \pdv{}{\vec{u}}\left[ (\vec{u} \otimes [\vec{u} - \vec{w}]) \cdot \vec{n} \right] \equiv \begin{bmatrix}
-            2u_1n_1 + u_2n_2 - w_1n_1 & u_1n_2 \\
-            u_2n_1 & 2u_2n_2 + u_1n_1 - w_2n_2
+            u_1n_2 + (\vec{u} - \vec{w}) \cdot \vec{n} & u_1n_2 \\
+            u_2n_1 & u_2n_2 + (\vec{u} - \vec{w}) \cdot \vec{n}
         \end{bmatrix}
     \end{equation*}
     for which the eigenvalues are $2\vec{u} \cdot \vec{n} - \vec{w}\cdot\vec{n}$ and $\vec{u} \cdot \vec{n} - \vec{w}\cdot\vec{n}$; therefore, we obtain

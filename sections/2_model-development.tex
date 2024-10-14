@@ -1,5 +1,5 @@
-\chapter{Model development} \label{sec:modelling}    
-    In this chapter, we will formulate a mathematical model of maternal blood flow in the placenta using Navier-Stokes-Darcy as described in Chapter \ref{sec:introduction}, coupled to a model of oxygen transport. We model the placenta as a rigid porous medium, with resistance to maternal flow through the intervillous space (IVS) corresponding to the presence of the fetal villous tree. We consider two choices of domain representative of key structural features in the placenta. One represents a single placentone, similar to the work by \citeauthor{lecarpentierComputationalFluidDynamic2016} \cite{lecarpentierComputationalFluidDynamic2016}. The other represents a more realistic geometry: a 2D slice through a whole placenta composed of six neighbouring placentones, separated by septal walls, with each placentone containing one artery and two veins; two larger marginal sinus veins are also included at the periphery of the domain, in addition to veins on the septal walls.
+\chapter{Model development} \label{sec:modelling} 
+    In this chapter, we will formulate a mathematical model of maternal blood flow in the placenta using Navier-Stokes-Darcy as introduced in Chapter \ref{sec:introduction}, coupled to a model of oxygen transport. We model the placenta as a rigid porous medium, with resistance to maternal flow through the intervillous space (IVS) corresponding to the presence of the fetal villous tree. We consider two choices of domain representative of key structural features in the placenta. One represents a single placentone, similar to the work by \citeauthor{lecarpentierComputationalFluidDynamic2016} \cite{lecarpentierComputationalFluidDynamic2016}. The other represents a more realistic geometry: a 2D slice through a whole placenta composed of six neighbouring placentones, separated by septal walls, with each placentone containing one artery and two veins; two larger marginal sinus veins are also included at the periphery of the domain, in addition to veins on the septal walls.
     
     A novel contribution of this thesis is to model maternal blood flow on a 2D slice of a placenta (rather than restricting study to a single placentone).
     
@@ -16,7 +16,7 @@
         Here, we will outline two geometries: one representing a single placentone as used by \citeauthor{lecarpentierComputationalFluidDynamic2016} \cite{lecarpentierComputationalFluidDynamic2016}, and one representing a 2D slice of a whole placenta.
         
         \subsection{2D placentone} \label{sec:modelling:geometries:2d-placentone}       
-            \todoitemtwo{Expand upon the biological motiviation for specific choices below. Could take some ideas from placenta geometry?}
+            %\todoitemtwo{Expand upon the biological motiviation for specific choices below. Could take some ideas from placenta geometry?}
             Taking inspiration from \citeauthor{lecarpentierComputationalFluidDynamic2016} \cite{lecarpentierComputationalFluidDynamic2016}, we construct a simple 2D geometry of a single placentone. This is formed of a rectangle with a semicircle placed on top. We also add a diverging artery at the centre of the bottom rectangle to represent a diverging spiral artery (see \cite{burtonRheologicalPhysiologicalConsequences2009}), and two square regions on either side for veins. There is also an elliptical region above the artery to represent the central cavity and results in a lower resistance to flow. A diagram of this geometry is shown in Figure \ref{fig:box-circle:dimensions}.
             
             Specifically, we choose the placentone dimensions such that the width and longest height are the same at \qty{40}{\milli\metre}   \cite{chernyavskyMathematicalModelIntervillous2010,lecarpentierComputationalFluidDynamic2016}. \citeauthor{lecarpentierComputationalFluidDynamic2016} \cite{lecarpentierComputationalFluidDynamic2016} take the diameters of arteries and veins to be \qty{2}{\milli\metre}. However, \citeauthor{burtonRheologicalPhysiologicalConsequences2009} \cite{burtonRheologicalPhysiologicalConsequences2009} instead opt to use an artery that changes in size along the length of the artery, which is consistent with physiological observations. We choose to adopt the latter approach. Following \cite{burtonRheologicalPhysiologicalConsequences2009}, we apply arterial boundary conditions at a distance of \qty{10}{\milli\metre} from the basal plate, and take the artery diameter to be \qty{0.5}{\milli\metre} which linearly diverges in the last \qty{3}{\milli\metre} to a \qty{2.4}{\milli\metre} opening. We also choose a different vein diameter to that of \cite{chernyavskyMathematicalModelIntervillous2010}, as veins are typically smaller than arteries\footnote{Provided by private correspondence with Lopa Leach (\href{mailto:lopa.leach@nottingham.ac.uk}{lopa.leach@nottingham.ac.uk}).}. We therefore assume veins have a diameter of \qty{1.5}{\milli\metre} and we apply venous boundary conditions at a distance of \qty{1.5}{\milli\metre} from the basal plate. Sharp corners close to the arteries and veins are filleted with a small radius\footnote{Filleting in this context refers to smoothing sharp corners of the geometry. See, for example, the top-left inset in Figure \ref{fig:box-circle:dimensions} where corners of the vein are filleted.}. We also centre-align the inlet, and take the outlets with \qty{8}{\milli\metre} between their centres and the side walls. We additionally add a semi-elliptical region directly above the inlet to represent the central cavity, which is a region free of villous tree structure, and is taken to have a semi-major axis length of \qty{10}{\milli\meter} and semi-minor axis length of \qty{5}{\milli\meter} with its centre at the top of the inlet. The region outside this is the IVS which is surrounded by villous tree material. 
@@ -89,7 +89,7 @@
         %     \end{figure}
 
     \section{Blood flow model} \label{sec:modelling:blood-flow}        
-        Previous authors using macro-scale models for maternal blood flow take flow through the villous tree as porous flow, and to treat other flows as `free' flow. Here, we will introduce a model that respects this approach, and make comparisons to other popular choices in the literature \cite{lecarpentierComputationalFluidDynamic2016,chernyavskyMathematicalModelIntervillous2010,meklerImpactTissuePorosity2022,erianMaternalPlacentalBlood1977,saghianAssociationPlacentalJets2017} through \S\ref{sec:modelling:blood-flow:s+b}--\ref{sec:modelling:blood-flow:ns+nsb}.
+        Previous authors using macro-scale models for maternal blood flow take flow through the villous tree as porous flow, and to treat other flows as `free' flow. Here, we will introduce a model that respects this approach, and make comparisons to other popular choices in the literature \cite{lecarpentierComputationalFluidDynamic2016,chernyavskyMathematicalModelIntervillous2010,meklerImpactTissuePorosity2022,erianMaternalPlacentalBlood1977,saghianAssociationPlacentalJets2017} in \S\ref{sec:modelling:blood-flow:s+b} and \ref{sec:modelling:blood-flow:ns+nsb}.
             
         One of the main contributions of this thesis is to use the Navier-Stokes-Darcy (NSD) equations to model maternal blood flow on a 2D placenta geometry. Whilst there is work that uses NSD and related models \cite{angotPenalizationMethodTake1999,fuchsbergerIncorporationObstaclesFluid2022,engelsFluSINovelParallel2016,jiaModelingAnalysisCarbonate2021}, as far as we are aware there is only one work that uses a single Navier-Stokes-type PDE to model flow in the context of the placenta \cite{meklerImpactTissuePorosity2022}. This approach is advantageous for the numerical methods we will employ, gives a physiologically sensible transition region between `free' and porous flow, and avoids non-physical boundary layers that may occur when coupling, for example, the Navier-Stokes and Brinkman equations \cite{brinkmanCalculationViscousForce1949}. To be clear, our model of maternal blood flow is: find $\vec{u}, p$ such that
         \begin{subequations}
@@ -114,52 +114,50 @@
             \label{fig:permeability}
         \end{figure}
             
-        Through the remainder of \S\ref{sec:modelling:blood-flow}, we will define three alternative blood flow models, as these form common choices in the current literature, and present the boundary conditions and parameters we will use in these problems. Approximations to these problems will then be compared later in \S\ref{sec:numerical-methods:blood-flow-experiments}; for simplicity, these comparisons will consider only the steady-state equations. We will consider:
+        Through the remainder of \S\ref{sec:modelling:blood-flow}, we will define two alternative blood flow models, as these form common choices in the current literature, and present the boundary conditions and parameters we will use in these problems. Approximations to these problems will then be compared later in \S\ref{sec:numerical-methods:blood-flow-experiments}; for simplicity, these comparisons will consider only the steady-state equations. We will consider:
         \begin{itemize}
             \item \S\ref{sec:modelling:blood-flow:boundary-conditions}: Boundary conditions and model parameters common to all flow problems,
             \item \S\ref{sec:modelling:blood-flow:s+b}: Brinkman in $\Omega_\text{IVS} \cup \Omega_{T^+}$ and Stokes in $\Omega \setminus (\Omega_\text{IVS} \cup \Omega_{T^+})$,
-            \item \S\ref{sec:modelling:blood-flow:ns+b}: Brinkman in $\Omega_\text{IVS} \cup \Omega_{T^+}$ and Navier-Stokes in $\Omega \setminus (\Omega_\text{IVS} \cup \Omega_{T^+})$,
             \item \S\ref{sec:modelling:blood-flow:ns+nsb}: Navier-Stokes-Darcy in $\Omega_\text{IVS} \cup \Omega_{T^+}$ and Navier-Stokes in $\Omega \setminus (\Omega_\text{IVS} \cup \Omega_{T^+})$.
         \end{itemize}
 
-        \subsection{Boundary conditions and placenta parameters} \label{sec:modelling:blood-flow:boundary-conditions}        
-            \todoitemone{You are missing the scaling of $U$ on the inlet boundary condition.}
-            For all velocity model choices, we prescribe the same boundary conditions: a zero Neumann condition on outflow, with parabolic inflow velocity profile, and no velocity slip elsewhere. Boundary conditions are applied of the form
+        \subsection{Boundary conditions and placenta parameters} \label{sec:modelling:blood-flow:boundary-conditions}
+            For all velocity model choices, we prescribe the same boundary conditions: a parabolic inflow velocity profile, with a `directional do-nothing' condition on outflow, and no velocity slip elsewhere. These choices correspond to boundary conditions of the form
             \begin{subequations}
                 \begin{alignat*}{3}
-                    \left( \nabla \vec{u} - p \mat{I} \right) \cdot \vec{n} & = \vec{g}_\text{f,N} &&~ \text{on } \Gamma_\text{out}, \\
+                    \left( \mu \nabla \vec{u} - p \mat{I} \right) \cdot \vec{n} & = \vec{g}_\text{f,N} &&~ \text{on } \Gamma_\text{out}, \\
                     \vec{u} & = \vec{g}_\text{f,D} &&~ \text{on } \Gamma\setminus\Gamma_\text{out},
                 \end{alignat*}%
             \end{subequations}%
-            where $\Gamma := \partial \Omega$ is labelled in Figures \ref{fig:box-circle:regions} and \ref{fig:inverted-circle-slice-6-flat:regions}, and $\vec{n}(\vec{x})$ is the unit outward-pointing normal at a point $\vec{x}$. The boundary conditions themselves are given by
+            where $\Gamma := \partial \Omega$ is labelled in Figures \ref{fig:box-circle:regions} and \ref{fig:inverted-circle-slice-6-flat:regions}, and $\vec{n}(\vec{x})$ is the unit outward-pointing normal at a point $\vec{x}$. We note that the outflow condition is a common choice used in the numerics community \cite{griffiths_no_1997,renardy_imposing_1997}. The boundary conditions themselves are given by
             \begin{subequations}
                 \begin{alignat}{3}
-                    \vec{g}_\text{f,D} & = - \frac{R^2 - r^2}{R^2} \vec{n} &&~ \text{on } \Gamma_\text{in},\label{eq:velocity-bcs:dirichlet-parabola}\\
+                    \vec{g}_\text{f,D} & = - U \frac{R^2 - r^2}{R^2} \vec{n} &&~ \text{on } \Gamma_\text{in},\label{eq:velocity-bcs:dirichlet-parabola}\\
                     \vec{g}_\text{f,N} & = \vec{0} &&~ \text{on } \Gamma_\text{out},\label{eq:velocity-bcs:neumann}\\
                     \vec{g}_\text{f,D} & = \vec{0} &&~ \text{on } \Gamma \setminus (\Gamma_\text{in} \cup \Gamma_\text{out}),\label{eq:velocity-bcs:dirichlet-no-slip}
                 \end{alignat}%
                 \label{eq:velocity-bcs}%
             \end{subequations}%
-            where $\vec{n}$ is the unit outward-pointing normal on $\Gamma_\text{in}$, $r(\vec{x})$ is the distance to from a point $\vec{x}$ to the centre of $\Gamma_\text{in}$, and $R$ is the artery radius.
+            where $\vec{n}$ is the unit outward-pointing normal on $\Gamma_\text{in}$, $r(\vec{x})$ is the distance to from a point $\vec{x}$ to the centre of $\Gamma_\text{in}$, $R$ is the artery radius, and $U$ is the maximum flow amplitude at the centre of the inlet.
 
             Tables \ref{tab:structural-parameters} and \ref{tab:problem-parameters} give lists of parameters used throughout this thesis' analyses, where the nominal values listed are used in all simulations unless otherwise stated.
 
-            \todoitemone{Is the cavity transition width correct? Check. Also add the vein transition width.}
             \begin{table}
                 \centering
                 \begin{adjustwidth}{-1.5cm}{-1cm}
                     \begin{tabular}{c|c|c|c|c}
                         Parameter & Description & Nominal value & Range & Reference \\
                         \hline
-                        $b_1, a_1$ & Axes of central cavity & \qtylist{1e-2;5e-3}{\metre} & — & \cite{lecarpentierComputationalFluidDynamic2016} \\
-                        — & Artery location & \qty{2e-2}{\metre} (from side) & — & \cite{chernyavskyMathematicalModelIntervillous2010,lecarpentierComputationalFluidDynamic2016} \\
-                        — & Vein location & \qty{8e-3}{\metre} (from side) & — & \cite{chernyavskyMathematicalModelIntervillous2010,lecarpentierComputationalFluidDynamic2016} \\
-                        — & Artery width (mouth) & \qty{2.4e-3}{\metre} & \qtyrange{5e-4}{3e-3}{\metre} & \cite{burtonRheologicalPhysiologicalConsequences2009} \\
-                        $2r_a$ & Artery width (upstream) & \qty{5e-4}{\metre} & — & \cite{burtonRheologicalPhysiologicalConsequences2009} \\
-                        $2r_v$ & Vein width & \qty{1.5e-3}{\metre} & — & — \\
-                        $2r^\text{ms}_v$ & Marginal sinus vein width & \qty{3e-3}{\metre} & — & — \\
-                        — & Central cavity width & \qty{1e-2}{\metre} & — & \cite{lecarpentierComputationalFluidDynamic2016,chernyavskyMathematicalModelIntervillous2010} \\
-                        $\tau$ & Central cavity transition & \qty{2}{\milli\metre} & — & — \\
+                        $b_1, a_1$ & Axes of central cavity & \qtylist{10;5}{\milli\metre} & — & \cite{lecarpentierComputationalFluidDynamic2016} \\
+                        — & Artery location & \qty{20}{\milli\metre} (from side) & — & \cite{chernyavskyMathematicalModelIntervillous2010,lecarpentierComputationalFluidDynamic2016} \\
+                        — & Vein location & \qty{8}{\milli\metre} (from side) & — & \cite{chernyavskyMathematicalModelIntervillous2010,lecarpentierComputationalFluidDynamic2016} \\
+                        $2r_a$ & Artery width (mouth) & \qty{2.4}{\milli\metre} & \qtyrange{0.5}{3}{\milli\metre} & \cite{burtonRheologicalPhysiologicalConsequences2009} \\
+                        — & Artery width (upstream) & \qty{0.5}{\milli\metre} & — & \cite{burtonRheologicalPhysiologicalConsequences2009} \\
+                        $2r_v$ & Vein width & \qty{1.5}{\milli\metre} & — & — \\
+                        $2r^\text{ms}_v$ & Marginal sinus vein width & \qty{3}{\milli\metre} & — & — \\
+                        — & Central cavity width & \qty{10}{\milli\metre} & — & \cite{lecarpentierComputationalFluidDynamic2016,chernyavskyMathematicalModelIntervillous2010} \\
+                        $\tau$ & Central cavity transition & \qty{4.8}{\milli\metre} & — & — \\
+                        — & Vein transition & \qty{1.2}{\milli\metre} & — & — \\
                         — & Small septal wall heights & \qty{6.90}{\milli\metre} & \qtyrange{5.26}{9.54}{\milli\metre} & \cite{AMANITIS2023e68} \\
                         — & Tall septal wall heights & \qty{14.07}{\milli\metre} & \qtyrange{12.15}{17.75}{\milli\metre} & \cite{AMANITIS2023e68} \\
                         — & Number of arteries (3D) & — & $30$—$150$ & \cite{benirschkePathologyHumanPlacenta2012,chernyavskyMathematicalModelIntervillous2010,burtonRheologicalPhysiologicalConsequences2009} \\
@@ -192,7 +190,7 @@
                 \label{tab:problem-parameters}
             \end{table}
 
-            \S\ref{sec:modelling:blood-flow:s+b}--\ref{sec:modelling:blood-flow:ns+nsb} will now outline three alternative models of maternal blood flow, taken directly from, or closely related to, those chosen in the literature.
+            \S\ref{sec:modelling:blood-flow:s+b} and \S\ref{sec:modelling:blood-flow:ns+nsb} will now outline two alternative models of maternal blood flow, taken directly from, or closely related to, those chosen in the literature.
 
         \subsection{Stokes and Brinkman (S-B)} \label{sec:modelling:blood-flow:s+b}
             We solve Brinkman in the IVS, and Stokes elsewhere: find $\vec{u}, p$ such that
@@ -210,35 +208,17 @@
                 \end{align}%
                 \label{eq:s-b}%
             \end{subequations}%
-            with continuity of velocity and pressure on the cavity-IVS interface, and boundary conditions given in Equation \ref{eq:velocity-bcs}. This is the simplest of the four velocity models, and the only model which is linear everywhere. This model is related to work by \citeauthor{chernyavskyMathematicalModelIntervillous2010} \cite{chernyavskyMathematicalModelIntervillous2010} and \citeauthor{erianMaternalPlacentalBlood1977} \cite{erianMaternalPlacentalBlood1977} who use Darcy's law. We opted to use the Brinkman equation instead of Darcy's law in the porous region for two reasons: firstly, Brinkman captures the drag effects associated with resistance of flow through the villous tree, and secondly, allows for simple application of interface conditions due to both equations being of the same order \cite{brinkmanCalculationViscousForce1949}. 
-
-        \subsection{Navier-Stokes and Brinkman (NS-B)} \label{sec:modelling:blood-flow:ns+b}
-            We solve Brinkman in the IVS, and steady-state Navier-Stokes elsewhere: find $\vec{u}, p$ such that
-            \begin{subequations}
-                \begin{align}
-                    \begin{split}
-                        \frac{\mu}{k} \vec{u} -\mu\nabla^2 \vec{u} + \vec{\nabla} p = \vec{0} &~ \text{in } \Omega_{\text{IVS}} \cup \Omega_{T^+},
-                    \end{split}\\
-                    \begin{split}
-                        \rho(\vec{u} \cdot \vec{\nabla}) \vec{u} -\mu\nabla^2 \vec{u} + \vec{\nabla} p = \vec{0} &~ \text{in } \Omega \setminus (\Omega_{\text{IVS}} \cup \Omega_{T^+}),
-                    \end{split}\\
-                    \begin{split}
-                        \vec{\nabla} \cdot \vec{u} = 0 &~ \text{in } \Omega,
-                    \end{split}%
-                \end{align}%
-                \label{eq:ns-b}%
-            \end{subequations}%
-            with continuity of velocity and pressure on the cavity-IVS interface, and boundary conditions given in Equation \ref{eq:velocity-bcs}. This example follows work by \citeauthor{lecarpentierComputationalFluidDynamic2016} \cite{lecarpentierComputationalFluidDynamic2016} who also use Navier-Stokes and Brinkman, and \citeauthor{saghianAssociationPlacentalJets2017} \cite{saghianAssociationPlacentalJets2017} who use a related model of Navier-Stokes and Darcy. This is therefore a useful benchmark model.
+            with boundary conditions given in Equation \ref{eq:velocity-bcs}. This is the simplest of the three velocity models, and the only model which is linear everywhere. This model is related to work by \citeauthor{chernyavskyMathematicalModelIntervillous2010} \cite{chernyavskyMathematicalModelIntervillous2010} and \citeauthor{erianMaternalPlacentalBlood1977} \cite{erianMaternalPlacentalBlood1977} who use Darcy's law. We opted to use the Brinkman equation instead of Darcy's law in the porous region for two reasons: firstly, Brinkman captures the drag effects associated with resistance of flow through the villous tree, and secondly, allows for simple application of interface conditions due to both equations being of the same order \cite{brinkmanCalculationViscousForce1949}. 
 
         \subsection{Navier-Stokes and Navier-Stokes-Darcy (NS-NSD)} \label{sec:modelling:blood-flow:ns+nsb}
             We solve steady-state Navier-Stokes-Darcy in the IVS, and steady-state Navier-Stokes elsewhere: find $\vec{u}, p$ such that
             \begin{subequations}
                 \begin{align}
                     \begin{split}
-                        \rho (\vec{u} \cdot \vec{\nabla}) \vec{u} - \mu \nabla^2 \vec{u} + \vec{\nabla} p = \vec{0} &~ \text{in } \Omega_{\text{IVS}} \cup \Omega_{T^+},
+                        \frac{\mu}{k}\vec{u} + \rho (\vec{u} \cdot \vec{\nabla}) \vec{u} - \mu \nabla^2 \vec{u} + \vec{\nabla} p = \vec{0} &~ \text{in } \Omega_{\text{IVS}} \cup \Omega_{T^+},
                     \end{split}\\
                     \begin{split}
-                        \frac{\mu}{k}\vec{u} + \rho (\vec{u} \cdot \vec{\nabla}) \vec{u} - \mu \nabla^2 \vec{u} + \vec{\nabla} p = \vec{0} &~ \text{in } \Omega \setminus (\Omega_{\text{IVS}} \cup \Omega_{T^+}),
+                        \rho (\vec{u} \cdot \vec{\nabla}) \vec{u} - \mu \nabla^2 \vec{u} + \vec{\nabla} p = \vec{0} &~ \text{in } \Omega \setminus (\Omega_{\text{IVS}} \cup \Omega_{T^+}),
                     \end{split}\\
                     \begin{split}
                         \vec{\nabla} \cdot \vec{u} = 0 &~ \text{in } \Omega,
@@ -246,7 +226,7 @@
                 \end{align}%
                 \label{eq:ns-nsb}%
             \end{subequations}%
-            with continuity of velocity and pressure on the cavity-IVS interface, and boundary conditions given in Equation \ref{eq:velocity-bcs}. This provides an alternate model to the coupled Navier-Stokes and Brinkman problem in \S\ref{sec:modelling:blood-flow:ns+b}, where the treatment of the interface conditions is more straightforward in the numerical scheme we employ in Chapter \ref{sec:numerical-methods}. We note here that this model is the sharp interface case of NSD.
+            with boundary conditions given in Equation \ref{eq:velocity-bcs}. This example follows work by \citeauthor{lecarpentierComputationalFluidDynamic2016} \cite{lecarpentierComputationalFluidDynamic2016} who use Navier-Stokes and Brinkman, and \citeauthor{saghianAssociationPlacentalJets2017} \cite{saghianAssociationPlacentalJets2017} who use a related model of Navier-Stokes and Darcy, which therefore makes this a useful benchmark model. We note here that this model is the sharp interface case of steady-state NSD.
 
     \section{Oxygen transport model} \label{sec:modelling:transport}
         We focus on modelling transport of oxygen from maternal blood to fetal blood. We model this using a reaction-advection-diffusion equation for oxygen concentration, where the advective velocity is the blood flow field obtained from \S\ref{sec:modelling:blood-flow} (NSD).
@@ -277,9 +257,9 @@
 
         Taking inspiration from \citeauthor{lecarpentierComputationalFluidDynamic2016} \cite{lecarpentierComputationalFluidDynamic2016}, we first introduced a placentone geometry, representing a smaller functional unit of the placenta. Differing from previous work with maternal blood flow on placentones, we included a diverging spiral artery that respects the natural widening of the artery as it meets the placenta \cite{burtonRheologicalPhysiologicalConsequences2009}, along with veins that are smaller than the relatively wide arteries. We secondly introduced a geometry that represents a 2D slice through a whole placenta, which captures structural features of the placenta on a larger scale. We remarked that our geometry is an idealisation of reality, since the number of placentones can vary greatly from placenta-to-placenta and also depends upon how the slice is taken; the 2D slice further assumes that vessels are perfectly aligned with the slice. Nevertheless, this geometry allowed us to include septal walls, decreasing placentone width towards the periphery, and additional drainage veins, which matches physiological observations and goes a step beyond the current mathematical models of 2D maternal flow in the placenta.
 
-        Following work by \citeauthor{meklerImpactTissuePorosity2022} \cite{meklerImpactTissuePorosity2022}, we next introduced a Navier-Stokes-type mathematical model of maternal blood flow in the placenta, where the resistance due to the presence of the fetal villous tree varies smoothly throughout the domain. This model is advantageous for the numerical methods we will employ, and gives a physiologically sensible transition region between `free' and porous flow. We also introduced three alternative models of blood flow, which will be compared in \S\ref{sec:numerical-methods:blood-flow-experiments:comparison}.
+        Following work by \citeauthor{meklerImpactTissuePorosity2022} \cite{meklerImpactTissuePorosity2022}, we next introduced a Navier-Stokes-type mathematical model of maternal blood flow in the placenta, where the resistance due to the presence of the fetal villous tree varies smoothly throughout the domain. This model is advantageous for the numerical methods we will employ, and gives a physiologically sensible transition region between `free' and porous flow. We also introduced two alternative models of blood flow, which will be compared in \S\ref{sec:numerical-methods:blood-flow-experiments:comparison}.
 
-        Next, we introduced a simple model of oxygen transport, where the advective velocity is taken from the blood flow model described above, and is similar to the model of \citeauthor{chernyavskyMathematicalModelIntervillous2010} \cite{chernyavskyMathematicalModelIntervillous2010}. This is a simple model, which most notably neglects additional oxygen binding dynamics. Other authors model this behaviour in the context of the placenta (see, for example, \cite{pearceImageBasedModelingBlood2016,serovOptimalVilliDensity2015,serovOptimalVilliDensity2015,erlichPhysicalGeometricDeterminants2019,meklerImpactTissuePorosity2022,serovOptimalVilliDensity2015}). For our application, a similar approach would involve a modification to the advection term of our reaction-advection-diffusion equation.
+        Next, we introduced a simple model of oxygen transport, where the advective velocity is taken from the blood flow model described above, and is similar to the model of \citeauthor{chernyavskyMathematicalModelIntervillous2010} \cite{chernyavskyMathematicalModelIntervillous2010}. This is a simple model, which most notably neglects additional oxygen binding dynamics. Other authors model this behaviour in the context of the placenta (see, for example, \cite{pearceImageBasedModelingBlood2016,serovOptimalVilliDensity2015,meklerImpactTissuePorosity2022}). For our application, a similar approach would involve a modification to the advection term of our reaction-advection-diffusion equation.
 
         The parameters chosen for the geometry in Table \ref{tab:structural-parameters}, and blood flow and oxygen transport models in Table \ref{tab:problem-parameters}, have been selected from the existing placenta literature. Whilst most choices are common in the modelling literature, several of these parameters vary greatly between different experimental studies (see discussion on numbers of arteries and placentones in \S\ref{sec:introduction}), and changes to some parameters would have a significant impact on modelling results. Later in this thesis, Chapter \ref{sec:nutrient-uptake} investigates the effects of variations in some of these parameters have on flow and oxygen transport. However, this is not comprehensive, and does not address some of the modelling assumptions that we have made. For example, we assume that the IVS permeability is uniform outside the central cavity, and that the shape of the central cavity is elliptical; changes in both of these assumptions would likely have an impact on the results presented in this thesis.
 

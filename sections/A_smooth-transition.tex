@@ -1,40 +1,16 @@
-\chapter{Details on the smooth transition function} \label{sec:smooth-transition}
-    \todoitemone{Revise with changes to MRI paper.}
-    To mathematically define an expression for $\Psi(\vec{x})$ from \S\ref{sec:modelling:blood-flow}, we first introduce some auxiliary variables. The simple idea here is that we assign $\Psi = 1$ in areas of villous tree and $\Psi = 0$ in areas of no villous tree.
-
-    \todoitemone{\say{denoting the semi-axis of the ellipse that is tangential to the basal plate}}
-    The central cavity is defined by half an ellipse (a semi-ellipse) with a semi-minor axis of $a_1$ and a semi-major axis of $b_1$, where $2a_1 = b_1$ with $a_1$ denoting the horizontal semi-axis of the ellipse. We then add two more ellipses at equal distances either side of the first ellipse, acting as a transition region. The measurements of the ellipses are given in Figure \ref{fig:transition-sizes:cavity}, including their centre at $\vec{c} = (c_1, c_2)$. The transition width, $\tau$, is defined such that $\tau = a_2 - a_0$ and $2\tau = b_2 - b_0$. Similarly, the transition region for the outlet vein involves defining lines at heights $y_0$, $y_1$, and $y_2$, as illustrated in Figure \ref{fig:transition-sizes:vein}.
-
-    \begin{figure}
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \input{diagrams/placenta-geometry-diagrams/cavity-sizing}
-            \caption{}
-            \label{fig:transition-sizes:cavity}
-        \end{subfigure}
-        \hfill
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \input{diagrams/placenta-geometry-diagrams/vein-sizing}
-            \caption{}
-            \label{fig:transition-sizes:vein}
-        \end{subfigure}
-        \caption{(a) Illustrates the semi-minor and semi-major axes defined in Appendix \ref{sec:smooth-transition} for the central cavity transition, including the marked point at the top of the centre of the inlet artery. (b) Illustrates parameters used in defining the smooth transition over the outlet veins.}
-        \label{fig:transition-sizes}
-    \end{figure}
-
-    \todoitemone{Change the less than equals on final line of $\beta$}
-    \todoitemone{Add that $\gamma = 0.999$ is fixed here, like we say in paper.}
-    We introduce a smooth transition function, $\beta$, given as
+\chapter{Details on the smooth transition function} \label{sec:smooth-transition}    
+    To mathematically define an expression for $\Psi(\vec{x})$ in \S\ref{sec:modelling:blood-flow}, we first introduce some auxiliary variables. The simple idea here is that we assign $\Psi = 1$ in areas of villous tree and $\Psi = 0$ in areas of no villous tree.    
+    
+    The central cavity is defined by half an ellipse (a semi-ellipse) with a semi-minor axis of $a_1$ and a semi-major axis of $b_1$, where $2a_1 = b_1$ with $a_1$ denoting the semi-axis that is tangential to the basal plate. We then add two more ellipses at equal distances inside and outside the first ellipse, which acts as a transition region. We introduce a smooth transition function defined as
     \begin{equation}
         \beta_{s_0,s_1,s_2}(s) := 
         \begin{cases}
             0 & \text{if } 0 \leq s < s_0, \\
             \frac{1}{2}\left[ \frac{\tanh(\gamma\left\{ \frac{s-s_1}{s_2-s_1} \right\})}{\tanh(\gamma)} + 1 \right], & \text{if } s_0 \leq s \leq s_2, \\
-            1 & \text{if } s_2 \leq s, \\
+            1 & \text{if } s_2 < s, \\
         \end{cases}
     \end{equation}
-    where $s_2 - s_0$ gives the transition width, and we assume the relation $s_1 \equiv \frac{s_0 + s_2}{2}$. Figure \ref{fig:transition:beta} illustrates $\beta$, where we note that the function differs from $\tanh$. $\tanh$ has asymptotes on the $y$-axis at $1$ and $-1$, whereas $\beta$ has no such asymptotes. $\beta$ attains minimum and maximum values by taking a `cut-off' value, parameterised by $\gamma$, outside which $\beta$ attains its extrema. We note that the scaling, $\gamma$, is chosen so that $\beta$ is continuous everywhere.
+    where $s_2 - s_0$ gives the transition width, and we assume the relation $s_1 \equiv \frac{s_0 + s_2}{2}$. We note that $\beta$ differs from $\tanh$, as $\tanh$ has asymptotes at $\pm 1$, whereas $\beta$ has no such asymptotes; $\beta$ instead attains maximum and minimum values by taking a `cut-off' value, parameterised by $\gamma$, outside which $\beta$ attains its extrema. We note that the scaling $\gamma$ is included so that $\beta$ is continuous everywhere, and is fixed $\gamma = 0.999$. These differences are illustrated in Figure \ref{fig:transition:beta}.
 
     \begin{figure}
         \begin{subfigure}[b]{0.45\textwidth}
@@ -54,64 +30,63 @@
         \label{fig:transition}
     \end{figure}
 
-    We then define the following functions of spatial coordinate $\vec{x} \equiv (x, y)^\intercal$:
+    The ellipses which form the geometry of the smooth transition region at the boundary of the central cavity are defined by
     \begin{align}
         \begin{split}
-            \theta(\vec{x}) & = \arctan{\left(\frac{y-c_2}{x-c_1}\right)},
+            r_0(\theta) & := \frac{a_0 b_0}{\sqrt{a_0^2 \sin^2(\theta) + b_0^2 \cos^2(\theta)}},
         \end{split}\\
         \begin{split}
-            r(\vec{x}) & = \sqrt{(\vec{x} - \vec{c}) \cdot (\vec{x} - \vec{c})},
+            r_1(\theta) & := \frac{a_1 b_1}{\sqrt{a_1^2 \sin^2(\theta) + b_1^2 \cos^2(\theta)}},
         \end{split}\\
         \begin{split}
-            r_0(\vec{x}) & = \frac{a_0 b_0}{\sqrt{a_0^2 \sin^2(\theta(\vec{x})) + b_0^2 \cos^2(\theta(\vec{x}))}},
-        \end{split}\\
-        \begin{split}
-            r_1(\vec{x}) & = \frac{a_1 b_1}{\sqrt{a_1^2 \sin^2(\theta(\vec{x})) + b_1^2 \cos^2(\theta(\vec{x}))}},
-        \end{split}\\
-        \begin{split}
-            r_2(\vec{x}) & = \frac{a_2 b_2}{\sqrt{a_2^2 \sin^2(\theta(\vec{x})) + b_2^2 \cos^2(\theta(\vec{x}))}}.
+            r_2(\theta) & := \frac{a_2 b_2}{\sqrt{a_2^2 \sin^2(\theta) + b_2^2 \cos^2(\theta)}},
         \end{split}
     \end{align}
-    
-    We remark that each of $r_0$, $r_1$, and $r_2$ are `radii' measured from $\vec{c}$, but are scaled with the radius of the ellipses at a given $\theta$. The smooth transition field for each point $\vec{x} \equiv (x, y)^\intercal$ on the placentone geometry presented in \S\ref{sec:modelling:geometries:2d-placentone} is then given as 
+    where $\vec{x} \equiv (x, y)^\intercal$ are 2D Cartesian coordinates, and
+    \begin{align}
+        \begin{split}
+            \theta(\vec{x}) & := \arctan{\left(\frac{y-c_2}{x-c_1}\right)},
+        \end{split}\\
+        \begin{split}
+            r(\vec{x}) & := \sqrt{(\vec{x} - \vec{c}) \cdot (\vec{x} - \vec{c})}
+        \end{split}
+    \end{align}
+    are 2D polar coordinates with $r = 0$ at $\vec{c} \equiv (c_1, c_2)^\intercal$ and $\theta = 0$ is tangential to the interface between $\Omega_\text{CC}$ and $\Omega_\text{a}$ (pointing in the anticlockwise direction). Here, $\vec{c}$ is the point at the centre of where an artery meets the placenta. The transition width, $\tau$, is defined such that $\tau = a_2 - a_0$ and $2\tau = b_2 - b_0$. The transition region in the central cavity is illustrated in Figure \ref{fig:transition-sizes:cavity}.
+
+    \begin{figure}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \input{diagrams/placenta-geometry-diagrams/cavity-sizing}
+            \caption{}
+            \label{fig:transition-sizes:cavity}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \input{diagrams/placenta-geometry-diagrams/vein-sizing}
+            \caption{}
+            \label{fig:transition-sizes:vein}
+        \end{subfigure}
+        \caption{(a) Illustrates the semi-minor and semi-major axes defined in Appendix \ref{sec:smooth-transition} for the central cavity transition, including the marked point at the top of the centre of the inlet artery. (b) Illustrates parameters used in defining the smooth transition over the outlet veins.}
+        \label{fig:transition-sizes}
+    \end{figure}
+
+    The smooth transition regions in the veins are defined using
+    \begin{equation*}
+        m(\vec{x}) := (\vec{x} - \vec{c}) \cdot \hat{\vec{n}},
+    \end{equation*}
+    where $\hat{\vec{n}} := \vec{n}/|\vec{n}|$, $\vec{n} = \vec{c} - \vec{p}$, and $\vec{p} \equiv (p_1, p_2)^\intercal$ is the centre of the large circle that traces out the curve on the basal plate. Here, $\vec{c}$ is the point at the centre of where a vein meets the placenta.
+
+    The coefficient $\Psi$ is then given as
     \begin{equation}
         \Psi(\vec{x}) := 
         \begin{cases}
             0, & \text{if } \vec{x} \in \Omega_\text{a} \cup \Omega_\text{CC}, \\
-            \beta_{r_0(\vec{x}),r_1(\vec{x}),r_2(\vec{x})}(r(\vec{x})), & \text{if } \vec{x} \in \Omega_{\text{T}^-} \cup \Omega_{\text{T}^+}, \\
-            \beta_{y_0,y_1,y_2}(y), & \text{if } \vec{x} \in \Omega_\text{v}, \\
+            \beta_{r_0,r_1,r_2}(r(\vec{x})), & \text{if } \vec{x} \in \Omega_{\text{T}^-} \cup \Omega_{\text{T}^+}, \\
+            \beta_{y_0,y_1,y_2}(m(\vec{x})), & \text{if } \vec{x} \in \Omega_\text{v}, \\
             1, & \text{if } \vec{x} \in \Omega_\text{IVS}, \\
         \end{cases}
         \label{eq:smooth-transition}
     \end{equation}
-    where we note that the transition in $\Omega_\text{v}$ is purely in the $y$-direction.
+    where $y_2 - y_0$ is chosen to give a transition region in the veins with $y_1 \equiv \frac{y_0 + y_2}{2}$, which are shown in Figure \ref{fig:transition-sizes:vein}. A slice of $\Psi(\vec{x})$ on the placentone geometry along $y = 0$ is illustrated in Figure \ref{fig:transition:slice}.
     
-    To further illustrate the behaviour of this transition function, Figure \ref{fig:transition:slice} shows a slice of $\Psi(\vec{x})$ along $y = 0$ at the base of the central cavity, where the transition here is a function of only $x$.
-
-    For the permeability field defined on the 2D placenta geometry in \S\ref{sec:modelling:geometries:2d-placenta}, we define a mapping from a placentone in a placenta to a reference single placentone through $m_{\phi}: \Omega \rightarrow \hat{\Omega}$, where $\Omega$ is the placenta domain and $\hat{\Omega}$ is the single placentone domain, defined by
-    \begin{equation}
-        m_{\phi}(\vec{x}) =
-        \begin{pmatrix}
-                \sin (\phi) & \cos (\phi) \\
-            -\cos (\phi) & \sin (\phi) 
-        \end{pmatrix}
-        \begin{pmatrix}
-            x - p_1 \\
-            y - p_2
-        \end{pmatrix} + 
-        \begin{pmatrix}
-            c_1 \\
-            c_2
-        \end{pmatrix},
-        \label{eq:placenta-to-placentone-mapping}
-    \end{equation}
-    where $\vec{c} \equiv (c_1, c_2)^\intercal$ is the centre of the central cavity ellipse on a single placentone, $\vec{p} \equiv (p_1, p_2)^\intercal$ is the centre of the large circle introduced in \S\ref{sec:modelling:geometries:2d-placenta}, and
-    \begin{equation}
-        \phi = \arctan \left( \frac{d_2 - p_2}{d_1 - p_1} \right),
-    \end{equation}
-    where each $\vec{d} \equiv (d_1, d_2)^\intercal$ is a point that differs depending upon which region of the domain the point lies in. In the central cavity, $\vec{d}$ corresponds to the centre of the placenta central cavity ellipse. In the veins, $\vec{d}$ corresponds to the centre of the top of the outlet veins, where the veins meet the IVS. In other locations, the choice of $\vec{d}$ is not important, as $\Psi(\vec{x})$ will trivially be either $0$ or $1$.
-    
-    The coefficient of the reaction term on the placenta geometry presented in \S\ref{sec:modelling:geometries:2d-placenta} is calculated by first translating points from the placenta geometry to the placentone geometry through Equation \eqref{eq:placenta-to-placentone-mapping}, i.e. calculating
-    \begin{equation}
-        \frac{\mu}{k} \Psi(m_\phi(\vec{x})).
-    \end{equation}
